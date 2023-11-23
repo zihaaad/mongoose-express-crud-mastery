@@ -7,7 +7,7 @@ const createUser = async (user: IUser) => {
 };
 
 const getAllUsers = async () => {
-  const result = await User.find({}, "username fullName age email address");
+  const result = await User.find({});
   return result;
 };
 

@@ -33,4 +33,20 @@ const userSchema = new Schema<IUser>({
   orders: {type: [String], required: true},
 });
 
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  console.log(obj);
+  delete obj.password;
+  console.log(obj);
+  return obj;
+};
+
+userSchema.pre("save", async function (next) {
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+  next();
+});
+
 export const User = model("User", userSchema);
