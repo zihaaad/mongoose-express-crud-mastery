@@ -35,9 +35,7 @@ const userSchema = new Schema<IUser>({
 
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
-  console.log(obj);
   delete obj.password;
-  console.log(obj);
   return obj;
 };
 

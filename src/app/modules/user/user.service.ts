@@ -11,7 +11,9 @@ const createUser = async (user: IUser) => {
 };
 
 const getAllUsers = async () => {
-  const result = await User.find({}, "username fullName age email address");
+  const result = await User.find().select(
+    "username fullName age email address"
+  );
   return result;
 };
 
@@ -24,8 +26,20 @@ const getSingleUser = async (userId: number) => {
   return result;
 };
 
+const updateUser = async (user: IUser) => {
+  if (!(await User.isUserExists(user.userId))) {
+    throw new Error("User not found");
+  }
+  const result = await User.updateOne({userId: user.userId}, user, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
   getSingleUser,
+  updateUser,
 };
