@@ -1,3 +1,5 @@
+import {Model} from "mongoose";
+
 export interface IOrder {
   productName: string;
   price: number;
@@ -22,4 +24,8 @@ export interface IUser {
     country: string;
   };
   orders: IOrder[];
+}
+
+export interface UserModel extends Model<IUser> {
+  isUserExists(userId: number): Promise<IUser | null>;
 }

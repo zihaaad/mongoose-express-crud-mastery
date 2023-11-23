@@ -13,7 +13,7 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "something went wrong!",
+      message: error.message || "something went wrong!",
       error: error,
     });
   }
@@ -36,7 +36,26 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const userId: number = Number(req.params.userId);
+    const result = await UserServices.getSingleUser(userId);
+    res.status(201).json({
+      success: true,
+      messgae: "Users fetched successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
+  getSingleUser,
 };
