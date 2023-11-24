@@ -110,6 +110,24 @@ const addUserOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getUserOrders = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await UserServices.getUserOrders(userId);
+    res.status(201).json({
+      success: true,
+      messgae: "Order fetched successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
@@ -117,4 +135,5 @@ export const UserControllers = {
   updateUser,
   deleteUser,
   addUserOrder,
+  getUserOrders,
 };

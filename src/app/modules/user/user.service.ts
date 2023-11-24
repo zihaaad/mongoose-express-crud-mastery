@@ -22,7 +22,7 @@ const getSingleUser = async (userId: number) => {
     throw new Error("User not found");
   }
 
-  const result = await User.findOne({userId});
+  const result = await User.findOne({userId}).select("-_id -__v -orders");
   return result;
 };
 
@@ -53,6 +53,11 @@ const addUserOrder = async (userId: number, order: IOrder) => {
   return result;
 };
 
+const getUserOrders = async (userId: number) => {
+  const result = await User.findOne({userId}).select("orders -_id");
+  return result;
+};
+
 export const UserServices = {
   createUser,
   getAllUsers,
@@ -60,4 +65,5 @@ export const UserServices = {
   updateUser,
   deleteUser,
   addUserOrder,
+  getUserOrders,
 };
