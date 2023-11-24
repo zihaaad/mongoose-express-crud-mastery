@@ -1,10 +1,12 @@
 import {Request, Response} from "express";
 import {UserServices} from "./user.service";
+import userSchema from "./user.validation";
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const result = await UserServices.createUser(user);
+    const zodParseData = userSchema.parse(user);
+    const result = await UserServices.createUser(zodParseData);
     res.status(201).json({
       success: true,
       messgae: "User created successfully!",
@@ -58,7 +60,8 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const user = req.body;
-    const result = await UserServices.updateUser(userId, user);
+    const zodParseData = userSchema.parse(user);
+    const result = await UserServices.updateUser(userId, zodParseData);
     res.status(201).json({
       success: true,
       messgae: "User updated successfully!",
