@@ -12,31 +12,37 @@ const orderSchema = new Schema<IOrder>({
 const userSchema = new Schema<IUser>({
   userId: {
     type: Number,
-    required: true,
+    required: [true, "UserId is required"],
     unique: true,
   },
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
+  username: {
+    type: String,
+    required: [true, "Username is required"],
+    unique: true,
+  },
+  password: {type: String, required: [true, "Password is required"]},
   fullName: {
     firstName: {
       type: String,
-      required: true,
+      trim: true,
+      required: [true, "firstName is Required"],
     },
     lastName: {
       type: String,
-      required: true,
+      trim: true,
+      required: [true, "lastName is Required"],
     },
   },
-  age: {type: Number, required: true, maxlength: 3},
-  email: {type: String, required: true, unique: true},
+  age: {type: Number, required: [true, "Age is required"], maxlength: 3},
+  email: {type: String, required: [true, "Email is required"], unique: true},
   isActive: {type: Boolean, required: true},
-  hobbies: {type: [String], required: true},
+  hobbies: {type: [String], required: [true, "Hobbies is required"]},
   address: {
     street: {type: String, required: true},
     city: {type: String, required: true},
     country: {type: String, required: true},
   },
-  orders: {type: [orderSchema], required: true},
+  orders: [orderSchema],
 });
 
 userSchema.methods.toJSON = function () {

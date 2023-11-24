@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {UserServices} from "./user.service";
-import userSchema from "./user.validation";
+import userSchema, {orderSchema} from "./user.validation";
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -98,7 +98,8 @@ const addUserOrder = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const order = req.body;
-    await UserServices.addUserOrder(userId, order);
+    const zodParseData = orderSchema.parse(order);
+    await UserServices.addUserOrder(userId, zodParseData);
     res.status(201).json({
       success: true,
       messgae: "Order created successfully!",

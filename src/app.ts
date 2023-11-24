@@ -12,7 +12,10 @@ app.use(cors());
 app.use("/api/users", UserRoutes);
 
 app.get("/", (req, res) => {
-  res.send("SERVER IS ACTIVE 🚀");
+  res.send({
+    success: true,
+    message: "server is running",
+  });
 });
 
 export default app;

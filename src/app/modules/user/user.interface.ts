@@ -23,7 +23,7 @@ export interface IUser {
     city: string;
     country: string;
   };
-  orders: IOrder[];
+  orders?: IOrder[];
 }
 
 export interface UserModel extends Model<IUser> {

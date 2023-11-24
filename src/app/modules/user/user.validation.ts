@@ -1,32 +1,44 @@
 import {z} from "zod";
 
-const orderSchema = z.object({
-  productName: z.string(),
-  price: z.number(),
-  quantity: z.number(),
+export const orderSchema = z.object({
+  productName: z.string({
+    required_error: "Product Name is Required",
+  }),
+  price: z.number({
+    required_error: "Price is Required",
+  }),
+  quantity: z.number({required_error: "Quantity is Required"}),
 });
 
 const userSchema = z.object({
-  userId: z.number(),
-  username: z.string(),
-  password: z.string(),
+  userId: z.number({
+    required_error: "UserId is Required",
+  }),
+  username: z
+    .string({
+      description: "username is required",
+    })
+    .max(50),
+  password: z.string({required_error: "Password is Required"}),
   fullName: z.object({
-    firstName: z.string(),
-    lastName: z.string(),
+    firstName: z.string({required_error: "firstName is Required"}).max(30),
+    lastName: z.string({required_error: "lastName is Required"}).max(30),
   }),
-  age: z.number(),
-  email: z.string().email(),
-  isActive: z.boolean({
-    required_error: "isActive is required",
-    invalid_type_error: "isActive must be a boolean",
-  }),
+  age: z.number({required_error: "Age is Required"}).max(999),
+  email: z
+    .string({required_error: "Email is required"})
+    .email({
+      message: "email is incorrect",
+    })
+    .toLowerCase(),
+  isActive: z.boolean().default(true),
   hobbies: z.array(z.string()),
   address: z.object({
-    street: z.string(),
-    city: z.string(),
-    country: z.string(),
+    street: z.string({required_error: "street is Required"}),
+    city: z.string({required_error: "city is Required"}),
+    country: z.string({required_error: "country is Required"}),
   }),
-  orders: z.array(orderSchema).default([]),
+  orders: z.array(orderSchema).optional(),
 });
 
 export default userSchema;
