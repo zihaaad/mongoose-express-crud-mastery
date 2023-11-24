@@ -1,7 +1,13 @@
 import {Schema, model} from "mongoose";
-import {IUser, UserModel} from "./user.interface";
+import {IOrder, IUser, UserModel} from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
+
+const orderSchema = new Schema<IOrder>({
+  productName: {type: String, required: true},
+  price: {type: Number, required: true},
+  quantity: {type: Number, required: true},
+});
 
 const userSchema = new Schema<IUser>({
   userId: {
@@ -30,7 +36,7 @@ const userSchema = new Schema<IUser>({
     city: {type: String, required: true},
     country: {type: String, required: true},
   },
-  orders: {type: [String], required: true},
+  orders: {type: [orderSchema], required: true},
 });
 
 userSchema.methods.toJSON = function () {
