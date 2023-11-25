@@ -54,6 +54,9 @@ const addUserOrder = async (userId: number, order: IOrder) => {
 };
 
 const getUserOrders = async (userId: number) => {
+  if (!(await User.isUserExists(userId))) {
+    throw new Error("User not found");
+  }
   const result = await User.findOne({userId}).select("orders -_id");
   return result;
 };

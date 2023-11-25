@@ -60,7 +60,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.pre("findOneAndUpdate", async function (next) {
-  const updated: IOrder | any = this.getUpdate();
+  const updated: IUser | any = this.getUpdate();
   updated.password = await bcrypt.hash(
     updated.password,
     Number(config.bcrypt_salt_rounds)
