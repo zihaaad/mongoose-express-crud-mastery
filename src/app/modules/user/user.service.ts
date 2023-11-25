@@ -30,10 +30,10 @@ const updateUser = async (userId: number, user: IUser) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error("User not found");
   }
-  const result = await User.updateOne({userId}, user, {
+  const result = await User.findOneAndUpdate({userId}, user, {
     new: true,
     runValidators: true,
-  });
+  }).select("-orders -__v -_id");
   return result;
 };
 
@@ -89,6 +89,7 @@ const getTotalPriceOfUserOrders = async (userId: number) => {
       },
     },
   ]);
+
   return result;
 };
 

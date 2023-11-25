@@ -59,6 +59,15 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.pre("findOneAndUpdate", async function (next) {
+  const updated: IOrder | any = this.getUpdate();
+  updated.password = await bcrypt.hash(
+    updated.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+  next();
+});
+
 userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await User.findOne({userId});
   return existingUser;

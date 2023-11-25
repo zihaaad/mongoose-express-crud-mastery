@@ -135,12 +135,20 @@ const getUserOrders = async (req: Request, res: Response) => {
 const getTotalPriceOfUserOrders = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
-    const result = await UserServices.getTotalPriceOfUserOrders(userId);
-    res.status(201).json({
-      success: true,
-      messgae: "Total price calculated successfully!",
-      data: result,
-    });
+    const [result] = await UserServices.getTotalPriceOfUserOrders(userId);
+    if (!result) {
+      res.status(201).json({
+        success: true,
+        messgae: "No orders to calculate!",
+        data: result,
+      });
+    } else {
+      res.status(201).json({
+        success: true,
+        messgae: "Total price calculated successfully!",
+        data: result,
+      });
+    }
   } catch (error: any) {
     res.status(500).json({
       success: false,
